@@ -54,3 +54,70 @@ if(ctx&&!reduce.matches){
  document.addEventListener('visibilitychange',()=>{if(document.hidden&&raf){cancelAnimationFrame(raf);raf=0;}else resume();});reduce.addEventListener('change',()=>{if(reduce.matches&&raf){cancelAnimationFrame(raf);raf=0;ctx.clearRect(0,0,width,height);}else resume();});resume();
 }
 })();
+
+// Animação discreta na seção de conexões.
+(() => {
+  const section = document.querySelector('.statement');
+  if (!section) return;
+  const canvas = document.createElement('canvas');
+  const context = canvas.getContext('2d');
+  if (!context) return;
+  canvas.setAttribute('aria-hidden', 'true');
+  Object.assign(section.style, { position: 'relative', isolation: 'isolate', overflow: 'hidden' });
+  Object.assign(canvas.style, { position: 'absolute', inset: '0', width: '100%', height: '100%', zIndex: '-1', pointerEvents: 'none' });
+  section.prepend(canvas);
+  const reduced = matchMedia('(prefers-reduced-motion: reduce)');
+  const fish = Array.from({ length: 13 }, (_, i) => ({
+    x: (i * 0.173 + 0.07) % 1, y: 0.12 + ((i * 0.317) % 0.76),
+    size: 19 + (i % 4) * 3, speed: 9 + (i % 4) * 1.4,
+    direction: i === 12 ? -1 : 1, gold: i === 12, phase: i * 1.7
+  }));
+  let width = 0, height = 0, frame = 0, last = 0, visible = true;
+  function resize() {
+    const rect = section.getBoundingClientRect(), dpr = Math.min(window.devicePixelRatio || 1, 2);
+    width = rect.width; height = rect.height;
+    canvas.width = Math.round(width * dpr); canvas.height = Math.round(height * dpr);
+    context.setTransform(dpr, 0, 0, dpr, 0, 0);
+    if (reduced.matches) drawFish(0, 0);
+  }
+  function drawFish(time, delta) {
+    context.clearRect(0, 0, width, height);
+    fish.forEach(f => {
+      f.x += f.direction * f.speed * delta / Math.max(width, 1);
+      if (f.x > 1.08) f.x = -0.08;
+      if (f.x < -0.08) f.x = 1.08;
+      const sway = Math.sin(time * 0.0012 + f.phase);
+      context.save();
+      context.translate(f.x * width, f.y * height + sway * 3);
+      context.scale(f.direction, 1);
+      context.fillStyle = f.gold ? 'rgba(224,158,69,0.34)' : 'rgba(120,120,120,0.05)';
+      context.beginPath();
+      context.moveTo(f.size * 0.55, 0);
+      context.bezierCurveTo(f.size * 0.15, -f.size * 0.26, -f.size * 0.21, -f.size * 0.22, -f.size * 0.37, 0);
+      context.lineTo(-f.size * 0.64, -f.size * (0.17 + sway * 0.025));
+      context.lineTo(-f.size * 0.57, 0);
+      context.lineTo(-f.size * 0.64, f.size * (0.17 + sway * 0.025));
+      context.lineTo(-f.size * 0.37, 0);
+      context.bezierCurveTo(-f.size * 0.21, f.size * 0.22, f.size * 0.15, f.size * 0.26, f.size * 0.55, 0);
+      context.fill(); context.restore();
+    });
+  }
+  function tick(time) {
+    frame = 0;
+    if (!visible || document.hidden || reduced.matches) return;
+    const delta = last ? Math.min((time - last) / 1000, 0.05) : 0;
+    last = time; drawFish(time, delta); frame = requestAnimationFrame(tick);
+  }
+  function sync() {
+    if (frame) cancelAnimationFrame(frame);
+    frame = 0; last = 0;
+    if (reduced.matches) drawFish(0, 0);
+    else if (visible && !document.hidden) frame = requestAnimationFrame(tick);
+  }
+  resize();
+  addEventListener('resize', resize, { passive: true });
+  document.addEventListener('visibilitychange', sync);
+  reduced.addEventListener('change', sync);
+  if ('IntersectionObserver' in window) new IntersectionObserver(entries => { visible = entries[0].isIntersecting; sync(); }).observe(section);
+  sync();
+})();

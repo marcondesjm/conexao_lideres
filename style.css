@@ -85,3 +85,6 @@ header{position:fixed;inset:0 0 auto;isolation:isolate;height:86px;background:#0
   .hero-pablo .pablo-caption strong, .hero-pablo::after { font-size: clamp(20px, 6vw, 29px); }
   .hero-pablo::after { bottom: 12%; }
 }
+
+/* Os nomes já aparecem nas imagens do material do evento. */
+.hero-pablo .pablo-caption strong, .hero-pablo::after { display: none; }

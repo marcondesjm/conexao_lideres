@@ -32,3 +32,18 @@ header{position:fixed;inset:0 0 auto;isolation:isolate;height:86px;background:#0
 @media(prefers-reduced-motion:reduce){.tier-symbol{animation:none}.speaker-card:hover .speaker-photo,.sponsor-card:hover,.sponsor-card:hover .tier-symbol{transform:none}}
 .hero-pablo{mask-image:linear-gradient(90deg,transparent,#000 20%,#000 88%,transparent);-webkit-mask-image:linear-gradient(90deg,transparent,#000 20%,#000 88%,transparent)}.pablo-source{mask-image:linear-gradient(0deg,transparent 23%,#000 44%,#000 65%,transparent 89%);-webkit-mask-image:linear-gradient(0deg,transparent 23%,#000 44%,#000 65%,transparent 89%)}.pablo-caption{bottom:18%;left:17%}.pablo-caption strong{font-size:44px}.pablo-caption strong br{display:none}.pablo-caption strong br:after{content:' '}.hero-pablo .pablo-caption strong{word-spacing:7px}.hero-bottom{z-index:3;background:linear-gradient(90deg,transparent,#0c0c0b55)}
 @media(max-width:620px){.hero-pablo{height:430px;mask-image:linear-gradient(0deg,transparent,#000 15%,#000 85%,transparent);-webkit-mask-image:linear-gradient(0deg,transparent,#000 15%,#000 85%,transparent)}.pablo-source{background-position:20% 25%;mask-image:linear-gradient(0deg,transparent 22%,#000 44%,#000 70%,transparent 97%);-webkit-mask-image:linear-gradient(0deg,transparent 22%,#000 44%,#000 70%,transparent 97%)}.pablo-caption{bottom:12%;left:7%}.pablo-caption strong{font-size:36px}}
+
+
+/* Destaque delicado do texto ao passar o mouse pela seção. */
+@media (hover: hover) {
+  .statement > span, .statement p, .statement p .word {
+    transition: color .45s ease, opacity .45s ease, text-shadow .45s ease;
+  }
+  .statement:hover > span { color: #e7b76f; text-shadow: 0 0 18px rgba(224,158,69,.25); }
+  .statement:hover p { color: #fff9ee; text-shadow: 0 0 25px rgba(224,158,69,.24); }
+  .statement:hover p .word { opacity: 1; }
+  .statement:hover em .word { color: #ffc779; text-shadow: 0 0 24px rgba(224,158,69,.5); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .statement > span, .statement p, .statement p .word { transition: none; }
+}

@@ -47,3 +47,41 @@ header{position:fixed;inset:0 0 auto;isolation:isolate;height:86px;background:#0
 @media (prefers-reduced-motion: reduce) {
   .statement > span, .statement p, .statement p .word { transition: none; }
 }
+
+
+/* Os dois palestrantes no destaque inicial. */
+.hero-pablo .pablo-source {
+  right: auto;
+  width: 50%;
+  background-size: 440% auto;
+  background-position: 20% 27%;
+}
+.hero-pablo::before {
+  content: "";
+  position: absolute;
+  inset: 0 0 0 auto;
+  width: 50%;
+  background: url('assets/stage-193.webp') 84% 27% / 440% auto no-repeat;
+  -webkit-mask-image: linear-gradient(0deg, transparent 23%, #000 44%, #000 65%, transparent 89%);
+  mask-image: linear-gradient(0deg, transparent 23%, #000 44%, #000 65%, transparent 89%);
+}
+.hero-pablo .pablo-caption { left: 4%; bottom: 18%; width: 46%; }
+.hero-pablo .pablo-caption strong { font-size: clamp(20px, 2.5vw, 36px); letter-spacing: -1px; }
+.hero-pablo::after {
+  content: "Paulo Vieira.";
+  position: absolute;
+  left: 52%;
+  bottom: 18%;
+  z-index: 2;
+  color: var(--paper);
+  font: clamp(20px, 2.5vw, 36px)/1.05 Machina, sans-serif;
+  letter-spacing: -1px;
+  text-shadow: 0 2px 30px #000;
+}
+@media (max-width: 620px) {
+  .hero-pablo .pablo-source { background-position: 20% 25%; background-size: 420% auto; }
+  .hero-pablo::before { background-position: 84% 25%; background-size: 420% auto; }
+  .hero-pablo .pablo-caption { left: 3%; bottom: 12%; }
+  .hero-pablo .pablo-caption strong, .hero-pablo::after { font-size: clamp(20px, 6vw, 29px); }
+  .hero-pablo::after { bottom: 12%; }
+}

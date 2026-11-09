@@ -69,7 +69,7 @@ if(ctx&&!reduce.matches){
   const reduced = matchMedia('(prefers-reduced-motion: reduce)');
   const fish = Array.from({ length: 13 }, (_, i) => ({
     x: (i * 0.173 + 0.07) % 1, y: 0.12 + ((i * 0.317) % 0.76),
-    size: 19 + (i % 4) * 3, speed: 9 + (i % 4) * 1.4,
+    size: 30 + (i % 4) * 4, speed: 9 + (i % 4) * 1.4,
     direction: i === 12 ? -1 : 1, gold: i === 12, phase: i * 1.7
   }));
   let width = 0, height = 0, frame = 0, last = 0, visible = true;
@@ -90,7 +90,7 @@ if(ctx&&!reduce.matches){
       context.save();
       context.translate(f.x * width, f.y * height + sway * 3);
       context.scale(f.direction, 1);
-      context.fillStyle = f.gold ? 'rgba(224,158,69,0.34)' : 'rgba(120,120,120,0.05)';
+      context.fillStyle = f.gold ? 'rgba(224,158,69,0.72)' : 'rgba(150,150,150,0.22)';
       context.beginPath();
       context.moveTo(f.size * 0.55, 0);
       context.bezierCurveTo(f.size * 0.15, -f.size * 0.26, -f.size * 0.21, -f.size * 0.22, -f.size * 0.37, 0);

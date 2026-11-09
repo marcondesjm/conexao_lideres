@@ -88,3 +88,23 @@ header{position:fixed;inset:0 0 auto;isolation:isolate;height:86px;background:#0
 
 /* Os nomes já aparecem nas imagens do material do evento. */
 .hero-pablo .pablo-caption strong, .hero-pablo::after { display: none; }
+
+
+/* Revelação suave dos parágrafos sobre o evento. */
+@media (hover: hover) and (prefers-reduced-motion: no-preference) {
+  .about-text > p:nth-of-type(2),
+  .about-text > p:nth-of-type(3) {
+    opacity: .48;
+    transform: translateY(7px);
+    transition: opacity .75s ease, transform .75s ease, color .75s ease;
+  }
+  .about-text > p:nth-of-type(3) { transition-delay: .14s; }
+  .about:hover .about-text > p:nth-of-type(2),
+  .about:hover .about-text > p:nth-of-type(3),
+  .about:focus-within .about-text > p:nth-of-type(2),
+  .about:focus-within .about-text > p:nth-of-type(3) {
+    opacity: 1;
+    transform: translateY(0);
+    color: #eee8de;
+  }
+}
